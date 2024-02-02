@@ -4,8 +4,8 @@
     <a-modal v-model:open="open" title="Заявка" :footer="null">
       <a-form
         name="basic"
-        ref="formRef"
         :model="formState"
+        @submit="submitHandle"
         :label-col="{ span: 8 }"
         :wrapper-col="{ span: 15 }"
       >
@@ -24,11 +24,10 @@
           <vue-tel-input
             v-model="formState.phone"
             placeholder="Введите номер телефона"
-            invalidMsg="Добавьте ссылку на ЖК"
             :autoDefaultCountry="true"
             :validCharactersOnly="true"
             :autoFormat="true"
-            autocomplete="off"
+            autoComplete="off"
             :dropdownOptions="dropdownOptions"
             :inputOptions="inputOptions"
           ></vue-tel-input>
@@ -37,8 +36,8 @@
         <a-form-item
           label="Ссылка на объект"
           name="reference"
-          v-for="item in formState.reference"
-          :key="item"
+          v-for="(ref, index) in formState.reference"
+          :key="index"
           :rules="[
             {
               required: true,
@@ -48,17 +47,9 @@
           ]"
           has-feedback
         >
-          <a-input
-            v-model:value="myInput"
-            autocomplete="off"
-            placeholder="Введите ссылку на ЖК"
-            type="url"
-            name="url"
-            pattern="https://.*"
-            size="30"
-            required
-          />
+          <a-input v-model:value="formState.reference[index]" />
         </a-form-item>
+
         <a-form-item :wrapper-col="{ span: 14, offset: 12 }">
           <a-button type="dashed">Удалить</a-button>
           <a-button @click="addInput" type="dashed">Добавить</a-button>
@@ -83,7 +74,7 @@
             :disabled="
               formState.phone === '' || formState.reference.length === 0
             "
-            @click="submitHandle"
+            html-type="submit"
             >Отправить</a-button
           >
         </a-form-item>
@@ -93,17 +84,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 
 const open = ref(false);
-const formComplete = ref(false);
-const myInput = ref("");
 const formState = reactive({
   phone: "",
   reference: [""],
   comments: "",
 });
-const formRef = ref();
 
 const dropdownOptions = {
   showFlags: false,
@@ -126,23 +114,24 @@ const resetHandle = () => {
   formState.phone = "";
   formState.reference = [];
   formState.comments = "";
-  formRef.value = null;
   open.value = true;
 };
 
 const submitHandle = () => {
   open.value = false;
-  if (formState.reference.length > 0) {
-    formComplete.value = true;
+  if (formState.reference.length > 0 && formState.phone.length === 15) {
+    console.log(formState);
+    console.log(formState.phone.length);
+    open.value = false;
+    formState.phone = "";
+    formState.reference = [""];
+    formState.comments = "";
   }
-  formState.reference.push(myInput.value);
-  console.log(formState);
 };
 
 const addInput = () => {
-  formState.reference.push(myInput.value);
+  formState.reference.length++;
   console.log(formState.reference);
-  console.log(formState);
 };
 </script>
 
