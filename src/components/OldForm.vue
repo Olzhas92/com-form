@@ -121,7 +121,7 @@ const resetHandle = () => {
 };
 
 const submitHandle = () => {
-  if (formState.reference && formState.phone.length === 15) {
+  if (formState.reference[0] !== "" && formState.phone.length === 15) {
     console.log(formState);
     console.log(formState.phone.length);
     open.value = false;
