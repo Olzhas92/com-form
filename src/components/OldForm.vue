@@ -19,7 +19,6 @@
               trigger: 'change',
             },
           ]"
-          has-feedback
         >
           <vue-tel-input
             v-model="formState.phone"
@@ -45,7 +44,6 @@
               trigger: 'change',
             },
           ]"
-          has-feedback
         >
           <a-input
             v-model:value="formState.reference[index]"
@@ -53,15 +51,20 @@
           />
         </a-form-item>
 
-        <a-form-item :wrapper-col="{ span: 14, offset: 12 }">
-          <a-button type="dashed">Удалить</a-button>
-          <a-button @click="addInput" type="dashed">Добавить</a-button>
+        <a-form-item :wrapper-col="{ span: 16, offset: 8 }">
+          <a-button type="dashed" danger ghost>Удалить ссылку</a-button>
+          <a-button
+            style="margin-left: 8px"
+            @click="addInput"
+            type="primary"
+            ghost
+            >Добавить ссылку</a-button
+          >
         </a-form-item>
         <a-form-item
           label="Комментарии"
           name="comments"
           :rules="[{ message: 'Оставьте комментарий', trigger: 'change' }]"
-          has-feedback
         >
           <a-textarea
             v-model:value="formState.comments"
