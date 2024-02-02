@@ -5,7 +5,7 @@
       <a-form
         name="basic"
         :model="formState"
-        @submit="submitHandle"
+        @submit.prevent="submitHandle"
         :label-col="{ span: 8 }"
         :wrapper-col="{ span: 15 }"
       >
@@ -47,7 +47,10 @@
           ]"
           has-feedback
         >
-          <a-input v-model:value="formState.reference[index]" />
+          <a-input
+            v-model:value="formState.reference[index]"
+            autocomplete="off"
+          />
         </a-form-item>
 
         <a-form-item :wrapper-col="{ span: 14, offset: 12 }">
@@ -72,7 +75,7 @@
             type="primary"
             style="margin-left: 12px"
             :disabled="
-              formState.phone === '' || formState.reference.length === 0
+              formState.phone.length !== 15 && formState.reference.length === 0
             "
             html-type="submit"
             >Отправить</a-button
@@ -111,21 +114,24 @@ const openModal = () => {
 };
 
 const resetHandle = () => {
-  formState.phone = "";
-  formState.reference = [];
+  formState.phone = "+7";
+  formState.reference = [""];
   formState.comments = "";
   open.value = true;
 };
 
 const submitHandle = () => {
-  open.value = false;
-  if (formState.reference.length > 0 && formState.phone.length === 15) {
+  if (formState.reference && formState.phone.length === 15) {
     console.log(formState);
     console.log(formState.phone.length);
     open.value = false;
     formState.phone = "";
     formState.reference = [""];
     formState.comments = "";
+    open.value = false;
+  } else {
+    open.value = true;
+    console.log(`Phone number ${formState.phone} is invalid `);
   }
 };
 
