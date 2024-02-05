@@ -152,7 +152,8 @@ const addInput = () => {
 
 const removeInput = (inputField) => {
   formState.reference.filter((item) => {
-    if (item === inputField) {
+    console.log(inputField.indexOf());
+    if (item === inputField && formState.reference.length !== 1) {
       const index = inputField.indexOf();
       formState.reference.splice(index, 1);
     }
