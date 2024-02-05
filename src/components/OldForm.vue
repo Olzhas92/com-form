@@ -3,6 +3,7 @@
     <a-button type="primary" @click="openModal">Open Modal</a-button>
     <a-modal v-model:open="open" title="Заявка" :footer="null">
       <a-form
+        name="request_form"
         :model="formState"
         @submit.prevent="submitHandle"
         :label-col="{ span: 8 }"
@@ -17,7 +18,7 @@
               required: true,
               message:
                 formState.phone.trim().length !== 15 &&
-                'Введите номер телефона!',
+                'Введите правильный номер телефона!',
               trigger: 'change',
             },
           ]"
@@ -49,6 +50,7 @@
           <a-input
             v-model:value="formState.reference[index]"
             placeholder="http:// или https://"
+            required
           />
         </a-form-item>
 
@@ -78,7 +80,8 @@
             type="primary"
             style="margin-left: 12px"
             :disabled="
-              formState.phone.trim().length !== 15 && !formState.reference
+              formState.phone.trim().length !== 15 ||
+              formState.reference.every((item) => !item.trim().length)
             "
             html-type="submit"
             >Отправить</a-button
@@ -124,7 +127,11 @@ const resetHandle = () => {
 };
 
 const submitHandle = () => {
-  if (formState.reference[0] !== "" && formState.phone.trim().length === 15) {
+  if (
+    formState.reference[0] !== "" &&
+    formState.phone.trim().length === 15
+    // && formState.reference.every((item) => item.includes("."))
+  ) {
     console.log(formState);
     open.value = false;
     formState.phone = "";
