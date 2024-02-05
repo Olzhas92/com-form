@@ -16,14 +16,14 @@
             {
               required: true,
               message:
-                formState.phone.length !== 15 && 'Введите номер телефона!',
+                formState.phone.trim().length !== 15 &&
+                'Введите номер телефона!',
               trigger: 'change',
             },
           ]"
         >
           <vue-tel-input
             v-model="formState.phone"
-            placeholder="+7"
             :autoDefaultCountry="true"
             :validCharactersOnly="true"
             :autoFormat="true"
@@ -48,7 +48,7 @@
         >
           <a-input
             v-model:value="formState.reference[index]"
-            placeholder="http://"
+            placeholder="http:// или https://"
             autocomplete="off"
           />
         </a-form-item>
@@ -80,7 +80,7 @@
             type="primary"
             style="margin-left: 12px"
             :disabled="
-              formState.phone.length !== 15 && formState.reference.length === 0
+              formState.phone.trim().length !== 15 && !formState.reference
             "
             html-type="submit"
             >Отправить</a-button
@@ -126,12 +126,11 @@ const resetHandle = () => {
 };
 
 const submitHandle = () => {
-  if (formState.reference[0] !== "" && formState.phone.length === 15) {
+  if (formState.reference[0] !== "" && formState.phone.trim().length === 15) {
     console.log(formState);
-    console.log(formState.phone.length);
     open.value = false;
     formState.phone = "";
-    formState.reference = [""];
+    formState.reference = [""].trim();
     formState.comments = "";
     open.value = false;
   } else {
@@ -142,7 +141,6 @@ const submitHandle = () => {
 
 const addInput = () => {
   formState.reference.length++;
-  console.log(formState.reference);
 };
 </script>
 
