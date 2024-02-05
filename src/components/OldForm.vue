@@ -52,10 +52,12 @@
             placeholder="http:// или https://"
             required
           />
+          <a-button type="dashed" @click="removeInput(ref)" danger ghost
+            >Удалить ссылку</a-button
+          >
         </a-form-item>
 
         <a-form-item :wrapper-col="{ span: 16, offset: 8 }">
-          <a-button type="dashed" danger ghost>Удалить ссылку</a-button>
           <a-button
             style="margin-left: 8px"
             @click="addInput"
@@ -146,6 +148,15 @@ const submitHandle = () => {
 
 const addInput = () => {
   formState.reference.length++;
+};
+
+const removeInput = (inputField) => {
+  formState.reference.filter((item) => {
+    if (item === inputField) {
+      const index = inputField.indexOf();
+      formState.reference.splice(index, 1);
+    }
+  });
 };
 </script>
 
