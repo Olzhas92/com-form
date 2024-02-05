@@ -3,11 +3,11 @@
     <a-button type="primary" @click="openModal">Open Modal</a-button>
     <a-modal v-model:open="open" title="Заявка" :footer="null">
       <a-form
-        name="basic"
         :model="formState"
         @submit.prevent="submitHandle"
         :label-col="{ span: 8 }"
         :wrapper-col="{ span: 15 }"
+        autocomplete="off"
       >
         <a-form-item
           label="Телефон"
@@ -49,7 +49,6 @@
           <a-input
             v-model:value="formState.reference[index]"
             placeholder="http:// или https://"
-            autocomplete="off"
           />
         </a-form-item>
 
@@ -70,7 +69,6 @@
         >
           <a-textarea
             v-model:value="formState.comments"
-            autocomplete="off"
             placeholder="Оставьте комментарий"
           />
         </a-form-item>
@@ -130,7 +128,7 @@ const submitHandle = () => {
     console.log(formState);
     open.value = false;
     formState.phone = "";
-    formState.reference = [""].trim();
+    formState.reference = [""];
     formState.comments = "";
     open.value = false;
   } else {
