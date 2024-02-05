@@ -15,14 +15,15 @@
           :rules="[
             {
               required: true,
-              message: 'Введите номер телефона!',
+              message:
+                formState.phone.length !== 15 && 'Введите номер телефона!',
               trigger: 'change',
             },
           ]"
         >
           <vue-tel-input
             v-model="formState.phone"
-            placeholder="Введите номер телефона"
+            placeholder="+7"
             :autoDefaultCountry="true"
             :validCharactersOnly="true"
             :autoFormat="true"
@@ -47,6 +48,7 @@
         >
           <a-input
             v-model:value="formState.reference[index]"
+            placeholder="http://"
             autocomplete="off"
           />
         </a-form-item>
